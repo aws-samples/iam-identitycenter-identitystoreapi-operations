@@ -1,19 +1,19 @@
 # AWS IAM Identity Center User and Group API Operations
 
 This project provides examples and sample code to manage and audit AWS IAM identity store User and Group operations at scale using APIs. With these APIs, you can build automation workflows to:
-    1. Provision and de-provision users and groups 
-    2. Add new members to a group or remove them from a group
-    3. Query information about users and groups in IAM Identity Center
-    4. Update information about these users and groups
-    5. Find out which users are members of which groups
+* Provision and de-provision users and groups 
+* Add new members to a group or remove them from a group
+* Query information about users and groups in IAM Identity Center
+* Update information about these users and groups
+* Find out which users are members of which groups
 
 ## Prerequisites
 
 Before you start you should have the following prerequisites:
-    1. An Organization in AWS Organizations
-    2. Administrative access to the AWS IAM Identity Center
-    3. Python version 3.10.5 or later
-    4. AWS CLI
+  * An Organization in AWS Organizations
+  * Administrative access to the AWS IAM Identity Center
+  * Python version 3.10.5 or later
+  * AWS CLI
 
 ## Environment Setup
 
