@@ -45,7 +45,7 @@ def create_user(args):
             'FamilyName': family_name,
             'GivenName': given_name
         },
-        DisplayName=display_name
+        DisplayName=display_name,
         Emails=[
             {
               'Value': email,
