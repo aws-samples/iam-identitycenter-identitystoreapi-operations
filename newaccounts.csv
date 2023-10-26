@@ -1,0 +1,3 @@
+identitystoreid,groupname,email,username,givenname,familyname
+d-1234,ScienceGroup,test-account-IAM SSO-Center-1@example.com,SDG51,Team 5-1,SDG51
+d-1234,ScienceGroup,test-account-IAM-SSO-Center-2@example.com,SDG52,Team 5-2,SDG52

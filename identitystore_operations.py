@@ -2,8 +2,26 @@
 import argparse
 import json
 import boto3
+import csv
 
 client = boto3.client('identitystore')
+
+
+def create_user_bulk(args):
+    """ 
+    This function reads a CSV and create bulk users in SSO. please see newaccounts.csv file 
+        
+    Response
+    --------
+    None
+    
+    """
+    file_name = args.filename
+    
+    with open(file_name, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            create_user_param(row['identitystoreid'], row['groupname'],row['email'],row['username'],row['givenname'],row['familyname'])
 
 
 def create_user(args):
@@ -19,6 +37,7 @@ def create_user(args):
     --username  - User Name for the user
     --givenname - First Name for the user
     --familyname - Last Name for the user
+    --email - email-id for the user
 
     Optional parameters
     -------------------
@@ -35,7 +54,42 @@ def create_user(args):
     given_name = args.givenname
     family_name = args.familyname
     group_name = args.groupname
+    email = args.email
+    create_user_param(sso_id_storeid, group_name,email,user_name,given_name,family_name)
+
+
+def create_user_param(identitystoreid, groupname, email, username, givenname, familyname):
+    """ 
+    This function creates a user and add the user to the group if the group exists.
+    - If the group does not exists , this function will create only the user and skip adding user to the group
+    
+    Note: Uses the region set in the default profile or shell environment
+    
+    Required parameters
+    -------------------
+    --identitystoreid - Identity Store Id of SSO configuration
+    --username  - User Name for the user
+    --givenname - First Name for the user
+    --familyname - Last Name for the user
+    --email - email-id for the user
+
+    Optional parameters
+    -------------------
+    --groupname - Name of the SSO group
+        
+    Response
+    --------
+    None
+
+    
+    """
+    sso_id_storeid = identitystoreid
+    user_name = username
+    given_name = givenname
+    family_name = familyname
+    group_name = groupname
     display_name = "{} {}".format(given_name, family_name)
+    email = email
     create_user_response = client.create_user(
         IdentityStoreId=sso_id_storeid,
         UserName=user_name,
@@ -43,7 +97,14 @@ def create_user(args):
             'FamilyName': family_name,
             'GivenName': given_name
         },
-        DisplayName=display_name
+        DisplayName=display_name,
+        Emails=[
+            {
+              'Value': email,
+              'Type': 'work',
+              'Primary': True
+            }
+        ]
     )
     user_id = create_user_response["UserId"]
     print("User:{} with UserId:{} created successfully".format(
@@ -291,6 +352,8 @@ if __name__ == '__main__':
     create_user_parser.add_argument(
         '--familyname', required=True, help="Last Name for the user")
     create_user_parser.add_argument(
+        '--email', required=True, help="email for the user")
+    create_user_parser.add_argument(
         '--groupname', help="if provided and valid, the newly created user will be added to group")
     create_user_parser.set_defaults(func=create_user)
 
@@ -325,5 +388,10 @@ if __name__ == '__main__':
     list_membership_parser.add_argument('--identitystoreid', required=True, help="Identity Store Id for IAM Identity Center Directory Configuration")
     list_membership_parser.add_argument('--username', required=True, help="Name of the user")
     list_membership_parser.set_defaults(func=list_membership)
+    
+    create_user_bulk_parser = subparsers.add_parser('create_user_bulk')
+    create_user_bulk_parser.add_argument('--filename', required=True, help="Provide the file name")
+    create_user_bulk_parser.set_defaults(func=create_user_bulk)
+        
     args = parser.parse_args()
     args.func(args)
