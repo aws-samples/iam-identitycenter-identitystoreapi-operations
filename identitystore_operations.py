@@ -19,6 +19,7 @@ def create_user(args):
     --username  - User Name for the user
     --givenname - First Name for the user
     --familyname - Last Name for the user
+    --email - email-id for the user
 
     Optional parameters
     -------------------
@@ -36,6 +37,7 @@ def create_user(args):
     family_name = args.familyname
     group_name = args.groupname
     display_name = "{} {}".format(given_name, family_name)
+    email = args.email
     create_user_response = client.create_user(
         IdentityStoreId=sso_id_storeid,
         UserName=user_name,
@@ -44,6 +46,13 @@ def create_user(args):
             'GivenName': given_name
         },
         DisplayName=display_name
+        Emails=[
+            {
+              'Value': email,
+              'Type': 'work',
+              'Primary': True
+            }
+        ]
     )
     user_id = create_user_response["UserId"]
     print("User:{} with UserId:{} created successfully".format(
@@ -290,6 +299,8 @@ if __name__ == '__main__':
         '--givenname', required=True, help="First Name for the user")
     create_user_parser.add_argument(
         '--familyname', required=True, help="Last Name for the user")
+    create_user_parser.add_argument(
+        '--email', required=True, help="email for the user")
     create_user_parser.add_argument(
         '--groupname', help="if provided and valid, the newly created user will be added to group")
     create_user_parser.set_defaults(func=create_user)
