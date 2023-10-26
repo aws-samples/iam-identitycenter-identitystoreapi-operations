@@ -83,6 +83,27 @@ User:johndoe with UserId:94482488-3041-7026-18f3-be45837cd0e4 created successful
 User:johndoe added to Group:AWS_Data_Science successfully
 ```
 
+Create bulk users from a CSV file
+
+You can download the sample [CSV file](/newaccounts.csv) and keep it in the same folder as code
+```
+python identitystore_operations.py create_user_bulk --filename newaccounts.csv
+
+*Sample Output:*
+User:SDG51 with UserId:a8a163f0-a011-70e0-3ed3-3f8b93f78ca7 created successfully
+User:SDG51 added to Group:ScienceGroup successfully
+User:SDG52 with UserId:68e173b0-c021-70e6-9930-dddca1d9464e created successfully
+User:SDG52 added to Group:ScienceGroup successfully
+User:SDG53 with UserId:f8d19370-f031-7077-1df6-b27f1a2beada created successfully
+User:SDG53 added to Group:ScienceGroup successfully
+User:SDG54 with UserId:98d12350-8041-705f-9948-b22e5a9f47a4 created successfully
+User:SDG54 added to Group:ScienceGroup successfully
+User:SDG55 with UserId:6801c3b0-50e1-70d9-a66c-1fa91b195a11 created successfully
+User:SDG55 added to Group:ScienceGroup successfully
+User:SDG56 with UserId:a8317340-a031-7056-d927-28bb403b7758 created successfully
+```
+
+
 Now, consider the data scientist transitions to an applied scientist role and needs access to additional AWS applications and resources. Previously, you had to manually update their information and add them to the “AWS_Applied_Scientists” group so they get the right access. Now, your automation can update the user and provide them with the access they need. 
  
 Here is an example of how a previously created user “John Doe” can be added to“AWS_Applied_Scientists” group
