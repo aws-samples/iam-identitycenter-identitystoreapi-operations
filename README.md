@@ -14,6 +14,27 @@ Before you start you should have the following prerequisites:
   * Administrative access to the AWS IAM Identity Center
   * Python version 3.10.5 or later
   * AWS CLI
+  * Boto3
+
+
+## Install prerequisites
+
+Install Python 
+```
+sudo yum update
+sudo yum install -y python3-pip python3 python3-setuptools
+```
+Install Boto3
+```
+pip3 install boto3
+```
+Install AWS Cli
+```
+$ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
 
 ## Environment Setup
 
@@ -21,7 +42,14 @@ Clone this repo:
 
 ```
 git clone https://github.com/aws-samples/iam-identitycenter-identitystoreapi-operations
-
+```
+Set up your access to to AWS Console
+```
+aws configure
+```
+Verify your access
+```
+aws sts get-called-identity
 ```
 
 ## Test
@@ -48,7 +76,7 @@ options:
 Here is an example of how you can create a new user “John Doe” in the IAM Identity Center identity store and add the user to an existing “AWS_Data_Science” Group.
 
 ```
-python identitystore_operations.py create_user --identitystoreid d-123456a7890 --username johndoe --givenname John --familyname Doe --groupname AWS_SSO_Data_Science
+python identitystore_operations.py create_user --identitystoreid d-123456a7890 --username johndoe --givenname John --familyname Doe --groupname AWS_SSO_Data_Science --email johndoe@company.com
 
 *Sample Output:*
 User:johndoe with UserId:94482488-3041-7026-18f3-be45837cd0e4 created successfully
